@@ -1,5 +1,4 @@
 import telebot
-import guess_number.game
 import random
 from telebot import types
 
@@ -63,12 +62,25 @@ soft_words = ['Безвыходных ситуаций не бывает. Мы �
               'Таким людям как ты нельзя грустить. Красные глаза и мокрый нос делам '
               'не помогут, поэтому наберись сил идти вперед.']
 
-print(len(soft_words))
+print('soft w:', len(soft_words))
+
+with open('text_files/motivation_words.txt', 'r', encoding='utf-8') as f:
+    motivation_words = f.readlines()
+
+motivation_emoji = '(*＾ω＾)人(＾ω＾*)\n\n'
+
+print('motivation w:', len(motivation_words))
 
 MINIMUM = 0
 MAXIMUM = 100
 change_part = MAXIMUM
 game_answer = int((change_part - MINIMUM) / 2)
+
+
+@bot.message_handler(commands=['command4'])
+def send_motivation(message):
+    answer = motivation_emoji + motivation_words[random.randint(0, len(motivation_words) - 1)]
+    bot.send_message(message.chat.id, answer)
 
 
 @bot.message_handler(commands=['command3'])
